@@ -1,0 +1,62 @@
+<form class="form-horizontal" ng-submit="submitUser()" role="form">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            {{html_popup.title}}
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type_instances">
+                Instance Type
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="type_instances" ng-model="instype.type_instances" type="text">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type_instances_name">
+                Name Instance Type
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="type_instances_name" ng-model="instype.type_instances_name" type="text">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="created_date">
+                Created Date
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="created_date" ng-model="instype.created_date" type="text" readonly="readonly">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="modified_date">
+                Modified Date
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="modified_date" ng-model="instype.modified_date" type="text" readonly="readonly">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="is_active">
+                Is Active
+            </label>
+            <div class="col-sm-5">
+                <textarea class="form-control" id="is_active" name="is_active" ng-model="instype.is_active" rows="4">
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="cancel()" type="button">
+            Cancel
+        </button>
+        <button class="btn btn-primary" type="submit">
+            {{html_popup.button_submit}}
+        </button>
+    </div>
+</form>
