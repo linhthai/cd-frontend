@@ -82,13 +82,15 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('ajax', function(data, callback, settings){
-            $http.get('http://localhost:8000/vm/v1/instancetype',{
+            $http.get('http://localhost:8000/vm/v1/instancetype',{ 
+                params: {
+                    offset: settings._iRecordsDisplay,
+                    limit: settings._iDisplayLength,
+                }
                 // url: +settings.aoData.length,
                 // method: 'GET',
                 // responseType: "json",
                 // // data: {
-                    limit : data.length,
-                    offset: data.start,
                 // },
                 // dept_name__icontains: data.search.value
             })
@@ -124,7 +126,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                         size: 'lg',
                         resolve: {
                             selectedInsType: function() {
-                                return $scope.instype;
+                                return null;
                             },
                             scopehtml: function() {
                                 return {
@@ -190,8 +192,14 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
         //         }
         //     }
         // ])
-        .withOption('fnRowCallback',function(nRow, aData, iDisplayIndex){
-            $("td:first", nRow).html(iDisplayIndex +1);
+        .withOption('fnRowCallback',function(nRow, aData, iDisplayIndex, settings){
+            // if(settings.aoData.length > 0) {
+            //     var api = this.api();
+            //     var pgNo = api.page.info();
+            //     var currPg = pgNo.page;
+            //     var totalPg = pgNo.pages;
+            // }
+            $("td:first", nRow).html(settings +1);
             return nRow;
         })
         .withOption('drawCallback', function(settings) {
@@ -201,8 +209,8 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                     var currPg = pgNo.page;
                     var totalPg = pgNo.pages;
                     // get the label where i need to print the page number details
-                    var myEl = angular.element(document.querySelector('#pgNoDetail'));
-                    myEl.text('Page '+(currPg + 1)+' of '+totalPg);
+                    // var myEl = angular.element(document.querySelector('#pgNoDetail'));
+                    // myEl.text('Page '+(currPg + 1)+' of '+totalPg);
                    }
             })
         .withOption('lengthMenu',[5, 10, 25, 50])
