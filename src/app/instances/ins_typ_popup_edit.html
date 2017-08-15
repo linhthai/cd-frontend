@@ -39,15 +39,18 @@
             <div class="col-sm-5">
                 <input class="form-control" id="modified_date" ng-model="instype.modified_date" type="text" readonly="readonly">
                 </input>
-            </div>
+            </div> 
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label" for="is_active">
                 Is Active
             </label>
             <div class="col-sm-5">
-                <textarea class="form-control" id="is_active" name="is_active" ng-model="instype.is_active" rows="4">
-                </textarea>
+<!--                 <textarea class="form-control" id="is_active" name="is_active" ng-model="instype.is_active" rows="4">
+                </textarea> -->
+                <select class="form-control" name="is_active" id="is_active" ng-model="select_data.selectedOption" data-ng-options="choice.Display for choice in select_data.dataOption track by choice.Value">
+                    <option value="">---Please select---</option>
+                </select>
             </div>
         </div>
     </div>

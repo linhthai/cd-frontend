@@ -120,13 +120,17 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                 text: 'Add Instance Type',
                 key: '1',
                 action: function (e, dt, node, config) {
+                    $scope.instype = [];
+                    var stringdate = $scope.dateformat();
+                    $scope.instype.created_date = stringdate;
+                    $scope.instype.modified_date = stringdate;
                     var dialogInst = $uibModal.open({
                         templateUrl: 'app/instances/ins_typ_popup_edit.html',
                         controller: 'DialogInstCtrl',
                         size: 'lg',
                         resolve: {
                             selectedInsType: function() {
-                                return null;
+                                return $scope.instype;
                             },
                             scopehtml: function() {
                                 return {
@@ -238,38 +242,28 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
      * persons - Data used in Tables view for Data Tables plugin
      */
     $scope.persons = [
-        {
-            id: '1',
-            firstName: 'Monica',
-            lastName: 'Smith'
-        },
-        {
-            id: '2',
-            firstName: 'Sandra',
-            lastName: 'Jackson'
-        },
-        {
-            id: '3',
-            firstName: 'John',
-            lastName: 'Underwood'
-        },
-        {
-            id: '4',
-            firstName: 'Chris',
-            lastName: 'Johnatan'
-        },
-        {
-            id: '5',
-            firstName: 'Kim',
-            lastName: 'Rosowski'
-        }
     ];
+
+    $scope.dateformat = function() {
+        var d = new Date()
+        return ("0" + d.getDate()).slice(-2) + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + 
+        d.getFullYear() + " " + ("0" + d.getHours()).slice(-2) + ":" + 
+        ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+    };
     // $scope.loadinstancetype();
 }
 
 function DialogInstCtrl($scope, $uibModalInstance, selectedInsType, scopehtml, $log) {
     $scope.instype = selectedInsType;
     $scope.html_popup = scopehtml
+    $scope.select_data = {
+        dataOption: [
+            { "Display": "Active", "Value": "true"},
+            { "Display": "Inactive", "Value": "false"}
+        ],
+        selectedOption: {"Value": selectedInsType.is_active}
+    };
+
     $scope.submitUser = function () {
         $uibModalInstance.close($scope.instype);
     //  $scope.usr = {name: '', job: '', age: '', sal: '', addr:''};
