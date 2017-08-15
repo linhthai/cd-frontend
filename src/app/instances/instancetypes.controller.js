@@ -4,7 +4,7 @@
 // }]);
 angular
     .module('inspinia')
-    .controller('datatablesCtrl', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', datatablesCtrl])
+    .controller('datatablesCtrlInsTypes', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', datatablesCtrl])
     .controller('DialogInstCtrl', ['$scope', '$uibModalInstance', 'selectedInsType', 'scopehtml', '$log', DialogInstCtrl]);
 
 
@@ -102,7 +102,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                             // recordsDisplay: 10
                             data: result.data.data
                         });
-                        $scope.data = result.data.data
+                        $scope.data = result.data.data;
                     }
                 })
                 .error(function (){
@@ -141,7 +141,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                         }
                     });
                     dialogInst.result.then(function (addInsType) {
-                        console.log(addInsType)
+                        console.log(addInsType);
                         $http({
                             method: 'POST',
                             url: 'http://localhost:8000/vm/v1/instancetype/create',
@@ -222,7 +222,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
 
     $scope.dtColumns = [
         DTColumnBuilder.newColumn(null).withTitle('ID').withOption('id'),
-        DTColumnBuilder.newColumn('type_instances').withTitle('Type Instances'),
+        DTColumnBuilder.newColumn('type_instances').withTitle('Instances Type'),
         DTColumnBuilder.newColumn('type_instances_name').withTitle('Name'),
         DTColumnBuilder.newColumn('created_date').withTitle('Created Date'),
         DTColumnBuilder.newColumn('modified_date').withTitle('Modified Date'),
@@ -264,7 +264,7 @@ function DialogInstCtrl($scope, $uibModalInstance, selectedInsType, scopehtml, $
         selectedOption: {"Value": selectedInsType.is_active}
     };
 
-    $scope.submitUser = function () {
+    $scope.submitInsType = function () {
         $uibModalInstance.close($scope.instype);
     //  $scope.usr = {name: '', job: '', age: '', sal: '', addr:''};
     };

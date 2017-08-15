@@ -27,12 +27,32 @@
       .state('instances.instances', {
         url: "/main",
         templateUrl: "app/instances/instances.html",
-        data: { pageTitle: 'Example view' }
+        data: { pageTitle: 'Example view' },
+        resolve: {
+            loadPlugin: function ($ocLazyLoad) {
+                return $ocLazyLoad.load([
+                    {
+                        serie: true,
+                        files: ['app/js/dataTables/datatables.min.js','app/css/plugins/dataTables/datatables.min.css']
+                    },
+                    {
+                        serie: true,
+                        name: 'datatables',
+                        files: ['app/js/dataTables/angular-datatables.min.js']
+                    },
+                    {
+                        serie: true,
+                        name: 'datatables.buttons',
+                        files: ['app/js/dataTables/angular-datatables.buttons.min.js']
+                    }
+                ]);
+            }
+        }
       })
       .state('instances.instances_types', {
         url: "/instancetypes",
         templateUrl: "app/instances/instancetypes.html",
-        data: { pageTitle: 'Instances' },
+        data: { pageTitle: 'Instance Types' },
         resolve: {
             loadPlugin: function ($ocLazyLoad) {
                 return $ocLazyLoad.load([

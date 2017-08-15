@@ -1,0 +1,84 @@
+<form class="form-horizontal" ng-submit="submitInstance()" role="form">
+    <div class="modal-header">
+        <h3 class="modal-title">
+            {{html_popup.title}}
+        </h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="instance_name">
+                Instance Name
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="instance_name" ng-model="ins.instance_name" type="text">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="ip_address">
+                IP Address
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="ip_address" ng-model="ins.ip_address" type="text" ng-pattern="/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/" placeholder='xxx.xxx.xxx.xxx'>
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="description">
+                Description
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="description" ng-model="ins.description" type="text">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="type_instances_name">
+                Instance Type
+            </label>
+            <div class="col-sm-5">
+                <select class="form-control" name="type_instances_name" id="type_instances_name" ng-model="instypes.selectedOption" data-ng-options="choice.type_instances_name for choice in instypes.dataOption track by choice.id">
+                    <option value="">---Please select---</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="created_date">
+                Created Date
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="created_date" ng-model="ins.created_date" type="text" readonly="readonly">
+                </input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="modified_date">
+                Modified Date
+            </label>
+            <div class="col-sm-5">
+                <input class="form-control" id="modified_date" ng-model="ins.modified_date" type="text" readonly="readonly">
+                </input>
+            </div> 
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label" for="is_active">
+                Is Active
+            </label>
+            <div class="col-sm-5">
+<!--                 <textarea class="form-control" id="is_active" name="is_active" ng-model="ins.is_active" rows="4">
+                </textarea> -->
+                <select class="form-control" name="is_active" id="is_active" ng-model="select_data.selectedOption" data-ng-options="choice.Display for choice in select_data.dataOption track by choice.Value">
+                    <option value="">---Please select---</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="cancel()" type="button">
+            Cancel
+        </button>
+        <button class="btn btn-primary" type="submit">
+            {{html_popup.button_submit}}
+        </button>
+    </div>
+</form>
