@@ -10,6 +10,60 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
 
     $scope.edit = function(id){
         console.log('Editing ' + id);
+        $scope.ins = $.grep($scope.data, function(e){ return e.id == id; })[0];
+        var dialogInst = $uibModal.open({
+            templateUrl: 'app/instances/ins_popup.html',
+            controller: 'DialogInstCtrl',
+            size: 'lg',
+            resolve: {
+                selectedIns: function () {
+                    return $scope.ins;
+                },
+                scopehtml: function() {
+                    return {
+                                title: "Update Instance",
+                                button_submit: "Update"
+                            };
+                }
+            }
+        });
+
+        dialogInst.result.then(function (updateIns) {
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8000/vm/v1/instance/update',
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                },
+                data: {
+                    'id':                   updateIns.id,
+                    'instance_name':        updateIns.instance_name,
+                    'instance_type':        updateIns.instance_type,
+                    'ip_address':           updateIns.ip_address,
+                    'description':          updateIns.description,
+                    'status':               updateIns.status,
+                    'created_date':         updateIns.created_date,
+                    'modified_date':        updateIns.modified_date,
+                    'is_active':            updateIns.is_active,
+                },
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            })
+                .success(function (result) {
+                    $scope.reloadData();
+                    console.log(result)
+                })
+                .error(function (result){
+                    console.log(result)
+                    console.log("Error during http post request.");
+                });
+            }, function () {
+                // $animate.enabled(false, element)
+                // $log.info('Modal dismissed at: ' + new Date());
+        });
+        // $scope.dtOptions.reloadData();
     }
     $scope.delete = function(id) {
         console.log('Deleting' + id);
@@ -138,7 +192,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
         DTColumnBuilder.newColumn(null).withTitle('ID').withOption('id'),
         DTColumnBuilder.newColumn('instance_name').withTitle('Instance Name'),
         DTColumnBuilder.newColumn('ip_address').withTitle('IP Address'),
-        DTColumnBuilder.newColumn('type_instances').withTitle('Instances Type'),
+        DTColumnBuilder.newColumn('instance_type.type_instances_name').withTitle('Instances Type').withOption('instance_type.id'),
         DTColumnBuilder.newColumn('description').withTitle('Description'),
         DTColumnBuilder.newColumn('created_date').withTitle('Created Date'),
         DTColumnBuilder.newColumn('modified_date').withTitle('Modified Date'),
@@ -173,7 +227,7 @@ function DialogInstCtrl($scope, $uibModalInstance, $http, selectedIns, scopehtml
     $scope.html_popup = scopehtml;
     $scope.instypes = {
         dataOption: [],
-        selectedOption: { "id": selectedIns.instance_type }
+        selectedOption: selectedIns.instance_type,
     };
     $scope.select_data = {
         dataOption: [
