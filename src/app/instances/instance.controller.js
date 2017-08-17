@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('inspinia')
-    .controller('datatablesCtrlIns', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', datatablesCtrl])
-    .controller('DialogInstCtrl', ['$scope', '$uibModalInstance', '$http', 'selectedIns', 'scopehtml', '$log', DialogInstCtrl]);
+    .controller('datatablesCtrlIns', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', datatablesCtrlIns])
+    .controller('DialogInstpCtrl', ['$scope', '$uibModalInstance', '$http', 'selectedIns', 'scopehtml', '$log', DialogInstpCtrl]);
 
-function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DTColumnBuilder){
+function datatablesCtrlIns($scope, $uibModal, $http, $compile, DTOptionsBuilder, DTColumnBuilder){
     $scope.data = [];
     $scope.ins = [];
 
@@ -13,7 +13,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
         $scope.ins = $.grep($scope.data, function(e){ return e.id == id; })[0];
         var dialogInst = $uibModal.open({
             templateUrl: 'app/instances/ins_popup.html',
-            controller: 'DialogInstCtrl',
+            controller: 'DialogInstpCtrl',
             size: 'lg',
             resolve: {
                 selectedIns: function () {
@@ -29,13 +29,15 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
         });
 
         dialogInst.result.then(function (updateIns) {
+            console.log(updateIns)
             $http({
+                ServerSide: true,
                 method: 'POST',
                 url: 'http://localhost:8000/vm/v1/instance/update',
-                transformRequest: function(obj) {
+                transformRequest: function(updateIns) {
                     var str = [];
-                    for(var p in obj)
-                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    for(var p in updateIns)
+                    str.push(encodeURIComponent(p) + "=" + encodeURIComponent(updateIns[p]));
                     return str.join("&");
                 },
                 data: {
@@ -44,7 +46,6 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                     'instance_type':        updateIns.instance_type,
                     'ip_address':           updateIns.ip_address,
                     'description':          updateIns.description,
-                    'status':               updateIns.status,
                     'created_date':         updateIns.created_date,
                     'modified_date':        updateIns.modified_date,
                     'is_active':            updateIns.is_active,
@@ -53,7 +54,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
             })
                 .success(function (result) {
                     $scope.reloadData();
-                    console.log(result)
+                    console.log(result);
                 })
                 .error(function (result){
                     console.log(result)
@@ -63,7 +64,6 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                 // $animate.enabled(false, element)
                 // $log.info('Modal dismissed at: ' + new Date());
         });
-        // $scope.dtOptions.reloadData();
     }
     $scope.delete = function(id) {
         console.log('Deleting' + id);
@@ -116,7 +116,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                     $scope.ins.modified_date = stringdate;
                     var dialogInst = $uibModal.open({
                         templateUrl: 'app/instances/ins_popup.html',
-                        controller: 'DialogInstCtrl',
+                        controller: 'DialogInstpCtrl',
                         size: 'lg',
                         resolve: {
                             selectedIns: function() {
@@ -210,7 +210,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
     ];
 }
 
-function DialogInstCtrl($scope, $uibModalInstance, $http, selectedIns, scopehtml, $log) {
+function DialogInstpCtrl($scope, $uibModalInstance, $http, selectedIns, scopehtml, $log) {
     $scope.InstanceTypes = function() {
         $http.get('http://localhost:8000/vm/v1/instancetype/getallname')
             .success(function(result) {
@@ -225,9 +225,15 @@ function DialogInstCtrl($scope, $uibModalInstance, $http, selectedIns, scopehtml
     $scope.InstanceTypes();
     $scope.ins = selectedIns;
     $scope.html_popup = scopehtml;
+    var _SelectedOption = selectedIns.instance_type
+    if (typeof(selectedIns.instance_type) !== "object") {
+        _SelectedOption = {
+            "id": selectedIns.instance_type,
+        }
+    }
     $scope.instypes = {
         dataOption: [],
-        selectedOption: selectedIns.instance_type,
+        selectedOption: _SelectedOption,
     };
     $scope.select_data = {
         dataOption: [
@@ -237,7 +243,12 @@ function DialogInstCtrl($scope, $uibModalInstance, $http, selectedIns, scopehtml
         selectedOption: {"Value": selectedIns.is_active}
     };
     $scope.submitInstance = function () {
-        $scope.ins.instance_type = $scope.instypes.selectedOption.id;
+        var instypes_default = 1;
+        if (typeof($scope.instypes.selectedOption) !== "undefined" ) {
+            instypes_default = $scope.instypes.selectedOption.id;
+        }
+        $scope.ins.instance_type = instypes_default;
+        $scope.ins.type_instances_name = 1;
         $uibModalInstance.close($scope.ins);
     //  $scope.usr = {name: '', job: '', age: '', sal: '', addr:''};
     };
