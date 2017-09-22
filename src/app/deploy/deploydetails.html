@@ -1,0 +1,72 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DetailsCtrl">
+    <div class="row" >
+        <div class="col-lg-7">
+            <div class="ibox float-e-margins" id="box_deploy">
+                <div class="ibox-title">
+                    <button class="btn btn-xs btn-info pull-right" type="submit" ng-click="viewLog()">
+                                View Log
+                    </button>
+                    <h5>Details
+                        <small>{{ title_small }}</small>
+                    </h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <form class="form-horizontal" ng-submit="submitRollback()" role="form">
+                        <div class="row" ng-repeat=" e in html">
+                            <div class="form-group">
+                                <label class="col-sm-4 text-right" for="{{e.title}}">
+                                    {{e.title}}: 
+                                </label>
+                                <div class="col-sm-8" ng-bind-html="e.contain | unsafe">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" ng-bind-html="button_submit | unsafe">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="ibox float-e-margins" id="box_deploy">
+                <div class="ibox-title">
+                    <h5>Details
+                        <small>{{ title_small_jenkins }}</small>
+                    </h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                     <div class="row" ng-repeat=" e in html_jenkins">
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right" for="html_jenkins">
+                                {{e.title}}: 
+                            </label>
+                            <div class="col-sm-8" ng-bind-html="e.contain | unsafe">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox float-e-margins" id="box_deploy">
+                <div class="ibox-title">
+                    <h5>Details
+                        <small>{{ title_small_bbk }}</small>
+                    </h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                     <div class="row" ng-repeat=" e in html_bitbucket">
+                        <div class="form-group">
+                            <label class="col-sm-4 text-right" for="html_bitbucket">
+                                {{e.title}}: 
+                            </label>
+                            <div class="col-sm-8" ng-bind-html="e.contain | unsafe">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

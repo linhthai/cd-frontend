@@ -4,11 +4,11 @@
 // }]);
 angular
     .module('inspinia')
-    .controller('datatablesCtrlInsTypes', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', datatablesCtrl])
-    .controller('DialogInstCtrl', ['$scope', '$uibModalInstance', 'selectedInsType', 'scopehtml', '$log', DialogInstCtrl]);
+    .controller('datatablesCtrlInsTypes', ['$scope' , '$uibModal', '$http', '$compile', 'DTOptionsBuilder', 'DTColumnBuilder', 'CONFIG', datatablesCtrl])
+    .controller('DialogInstCtrl', ['$scope', '$uibModalInstance', 'selectedInsType', 'scopehtml', '$log', , DialogInstCtrl]);
 
 
-function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DTColumnBuilder){
+function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DTColumnBuilder,CONFIG){
     $scope.data = [];
     $scope.instype = [];
 
@@ -35,7 +35,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
         dialogInst.result.then(function (updateInsType) {
             $http({
                 method: 'POST',
-                url: 'http://localhost:8000/vm/v1/instancetype/update',
+                url: CONFIG.url_base + '/vm/v1/instancetype/update',
                 transformRequest: function(obj) {
                     var str = [];
                     for(var p in obj)
@@ -82,7 +82,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('ajax', function(data, callback, settings){
-            $http.get('http://localhost:8000/vm/v1/instancetype',{ 
+            $http.get(CONFIG.url_base + '/vm/v1/instancetype',{ 
                 params: {
                     offset: settings._iRecordsDisplay,
                     limit: settings._iDisplayLength,
@@ -144,7 +144,7 @@ function datatablesCtrl($scope, $uibModal, $http, $compile, DTOptionsBuilder, DT
                         console.log(addInsType);
                         $http({
                             method: 'POST',
-                            url: 'http://localhost:8000/vm/v1/instancetype/create',
+                            url: CONFIG.url_base + '/vm/v1/instancetype/create',
                             transformRequest: function(obj) {
                                 var str = [];
                                 for(var p in obj)
