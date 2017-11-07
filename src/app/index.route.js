@@ -143,7 +143,21 @@
             }
       })
       ;
-
+      .state('scm', {
+          abstract: true,
+          url: "/scm",
+          templateUrl: "app/components/common/content.html",
+      })
+      .state('scm.migrate', {
+          url: "/migrate",
+          templateUrl: "app/deploy/deploytool.html",
+          data: { pageTitle: 'Migrate bitbucket' },
+      })
+      .state('setting', {
+          abstract: true,
+          url: "/setting",
+          templateUrl: "app/components/common/content.html",
+      })
 
     $urlRouterProvider.otherwise('/index/main');
   }

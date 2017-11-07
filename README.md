@@ -22,3 +22,12 @@ Here are few main task that you can do:
 * ```gulp protractor``` to launch your e2e tests with Protractor
 * ```gulp protractor:dist``` to launch your e2e tests with Protractor on the dist files
 In bower.js file there are specify needed resources for Seed Project.
+
+# build project
+docker build -t fe_devops:1 -f dockerfile .
+
+# Run project with docker
+docker run --name fe -v /opt/devops_tools/devices-tools-deployments:/opt/devops_tools/devices-tools-deployments -p 3000:3000 -p 3001:3001 -dt node:8.2.1
+
+docker run --name fe -v D:\DevOps\cd-frontend-data:/opt/resource/devices-tools-deployments -p 3000:3000 -p 3001:3001 -dt fe_devops:1
+

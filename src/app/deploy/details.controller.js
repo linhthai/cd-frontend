@@ -113,7 +113,7 @@ function DetailsCtrl($scope, $stateParams, SweetAlert, toaster, $state, CONFIG, 
                                     'group': job.group.name,
                                     'job': job.name,
                                     'branch': commit,
-                                    'jobsrepo_id': services.id,
+                                    'jobsrepo_id': $scope.data.jobsrepo.id,
                                     'branch_id': branches.id,
                                     'description': description,
                                     'environment': environment,
@@ -128,7 +128,7 @@ function DetailsCtrl($scope, $stateParams, SweetAlert, toaster, $state, CONFIG, 
                                     toaster.warning("Error during http get request rollback.");
                                 });
                         };
-                        // $scope.rollback();
+                        $scope.rollback();
                         SweetAlert.swal("Rollback!", "Job has been rollback.", "success");
                     } else{
                         // toaster.warning({ title:"",body:"Unknown Error"});
