@@ -29,23 +29,39 @@
 
             </li>
 
-            <li ui-sref-active="active">
+            <li  ui-sref-active="active">
                 <a ui-sref="index.main"><i class="fa fa-laptop"></i> <span class="nav-label">Main page</span> </a>
             </li>
-            <li>
-                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">INSTANCES</span><span class="fa arrow"></span></a>
+            <li  ui-sref-active="active">
+                <a ui-sref="instances"><i class="fa fa-desktop"></i> <span class="nav-label">INSTANCES</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li ui-sref-active="active"><a ui-sref="instances.instances">Instances</a></li>
                     <li ui-sref-active="active"><a ui-sref="instances.instances_types">Instance Types</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="#"><i class="fa fa fa-flask"></i> <span class="nav-label">DEPLOY</span><span class="fa arrow"></span></a>
+            <li  ui-sref-active="active">
+                <a ui-sref="deploy"><i class="fa fa fa-flask"></i> <span class="nav-label">DEPLOY</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse"">
                     <li ui-sref-active="active"><a ui-sref="deploy.deploytool">Deploy Tool</a></li>
                     <li ui-sref-active="active"><a ui-sref="deploy.details">Details</a></li>
                     <li ui-sref-active="active"><a ui-sref="deploy.logs">Logs</a></li>
                 </ul>
+            </li>
+            <li  ui-sref-active="active">
+                <a ui-sref="services"><i class="fa fa fa-dashboard"></i> <span class="nav-label">Services</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse"">
+                    <li  ui-sref-active="active"><a ui-sref="services.status">Status</a></li>
+                    <li  ui-sref-active="active"><a ui-sref="services.version">Version</a></li>
+                </ul>
+            </li>
+            <li  ui-sref-active="active">
+                <a ui-sref="scm"><i class="fa fa fa-bitbucket"></i> <span class="nav-label">SCM</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse"">
+                    <li  ui-sref-active="active"><a ui-sref="scm.migrate">Migrate SCM</a></li>
+                </ul>
+            </li>
+            <li  ui-sref-active="active">
+                <a ui-sref="setting"><i class="fa fa fa-cogs"></i> <span class="nav-label">SETTING</span><span class="fa arrow"></span></a>
             </li>
         </ul>
 

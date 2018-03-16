@@ -142,7 +142,7 @@
                 }
             }
       })
-      ;
+
       .state('scm', {
           abstract: true,
           url: "/scm",
@@ -150,7 +150,7 @@
       })
       .state('scm.migrate', {
           url: "/migrate",
-          templateUrl: "app/deploy/deploytool.html",
+          templateUrl: "app/scm/migrate.html",
           data: { pageTitle: 'Migrate bitbucket' },
       })
       .state('setting', {
@@ -158,7 +158,22 @@
           url: "/setting",
           templateUrl: "app/components/common/content.html",
       })
-
+      .state('services', {
+          abstract: true,
+          url: "/services",
+          templateUrl: "app/components/common/content.html",
+      })
+      .state('services.status', {
+          url: "/status",
+          templateUrl: "app/services/status.html",
+          data: { pageTitle: 'Status Services' },
+      })
+      .state('services.version', {
+          url: "/version",
+          templateUrl: "app/services/version.html",
+          data: { pageTitle: 'Version Services' },
+      })
+      ;
     $urlRouterProvider.otherwise('/index/main');
   }
 
