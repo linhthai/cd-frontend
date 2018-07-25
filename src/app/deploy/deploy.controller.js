@@ -7,30 +7,30 @@ angular.module('inspinia')
 function DeployCtrl($scope, $http, $log, toaster, $timeout, $compile, DTOptionsBuilder, DTColumnBuilder, CONFIG, $state) {
     $scope.data = [];
     $scope.repository_list = []
-    $scope.Project = function() {
-        $http.get(CONFIG.url_base + '/ci/v1/projects')
+    $scope.Environment = function() {
+        $http.get(CONFIG.url_base + '/ci/v1/groups')
             .success(function(result) {
                 if (result.status == 200 && result.data != null) {
-                    $scope.projects.dataOption = result.data;
+                    $scope.groups.dataOption = result.data;
                 }
             })
             .error(function() {
                 console.log("Error during http get request.");
             });
     };
-    $scope.Repo = function() {
-        $http.get(CONFIG.url_base + '/ci/v1/jobsrepo')
+    $scope.Services = function() {
+        $http.get(CONFIG.url_base + '/ci/v1/jobs')
             .success(function(result) {
                 if (result.status == 200 && result.data != null) {
-                    $scope.repository_list = result.data;
-                    var project_obj = $scope.projects.selectedOption;
-                    var services = $scope.repository_list.filter(function(e){ 
-                        return e.repository.project.id == project_obj.id;
+                    $scope.services_list = result.data;
+                    var groups_obj = $scope.groups.selectedOption;
+                    var services = $scope.services_list.filter(function(e){ 
+                        return e.services.groups.id == groups_obj.id;
                     });
                     if (services.length > 0) {
-                        $scope.repository.dataOption = services;
-                        $scope.repository.selectedOption = services[0];
-                        var branches = services[0].repository.branches;
+                        $scope.services.dataOption = services;
+                        $scope.services.selectedOption = services[0];
+                        var branches = services[0].services.branches;
                         $scope.branches.dataOption = branches;
                         $scope.branches.selectedOption = branches[0];
                     }
@@ -40,13 +40,35 @@ function DeployCtrl($scope, $http, $log, toaster, $timeout, $compile, DTOptionsB
                 console.log("Error during http get request repository.");
             });
     };
-    $scope.Repo();
-    $scope.Project();
-    $scope.projects = {
+    // $scope.Repo = function() {
+    //     $http.get(CONFIG.url_base + '/ci/v1/jobsrepo')
+    //         .success(function(result) {
+    //             if (result.status == 200 && result.data != null) {
+    //                 $scope.repository_list = result.data;
+    //                 var project_obj = $scope.projects.selectedOption;
+    //                 var services = $scope.repository_list.filter(function(e){ 
+    //                     return e.repository.project.id == project_obj.id;
+    //                 });
+    //                 if (services.length > 0) {
+    //                     $scope.repository.dataOption = services;
+    //                     $scope.repository.selectedOption = services[0];
+    //                     var branches = services[0].repository.branches;
+    //                     $scope.branches.dataOption = branches;
+    //                     $scope.branches.selectedOption = branches[0];
+    //                 }
+    //             }
+    //         })
+    //         .error(function() {
+    //             console.log("Error during http get request repository.");
+    //         });
+    // };
+    $scope.Services();
+    $scope.Environment();
+    $scope.groups = {
         dataOption: [],
         selectedOption: { 'id': '1' },
     };
-    $scope.repository = {
+    $scope.services = {
         dataOption: [],
         selectedOption: {},
     };
@@ -55,12 +77,10 @@ function DeployCtrl($scope, $http, $log, toaster, $timeout, $compile, DTOptionsB
         selectedOption: { 'id': '1' },
     };
 
-    $scope.environment = "Staging";
-
-    $scope.selectproject = function() {
-        var project_obj = $scope.projects.selectedOption;
+    $scope.selectEnvironment = function() {
+        var groups_obj = $scope.groups.selectedOption;
         var services = $scope.repository_list.filter(function(e) {
-            return e.repository.project.id == project_obj.id;
+            return e.repository.project.id == groups_obj.id;
         });
         if (services.length > 0) {
             $scope.repository.dataOption = services;
@@ -73,6 +93,23 @@ function DeployCtrl($scope, $http, $log, toaster, $timeout, $compile, DTOptionsB
             $scope.branches.dataOption = [];
         }
     };
+
+    // $scope.selectproject = function() {
+    //     var project_obj = $scope.projects.selectedOption;
+    //     var services = $scope.repository_list.filter(function(e) {
+    //         return e.repository.project.id == project_obj.id;
+    //     });
+    //     if (services.length > 0) {
+    //         $scope.repository.dataOption = services;
+    //         $scope.repository.selectedOption = services[0];
+    //         var branches = services[0].repository.branches;
+    //         $scope.branches.dataOption = branches;
+    //         $scope.branches.selectedOption = branches[0];
+    //     } else{
+    //         $scope.repository.dataOption = [];
+    //         $scope.branches.dataOption = [];
+    //     }
+    // };
 
     $scope.selectrepository = function() {
         var services = $scope.repository.selectedOption;
